@@ -33,19 +33,19 @@ if(!isLogged()) {
         <form action="/api/user/account/update" method="POST">
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" value="<?php echo getSessionName();?>" required>
-			<br>
+			<br><br>
 
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" value="<?php echo getSessionEmail();?>" required>
-			<br>
+			<br><br>
 
             <label for="address">Address:</label>
             <input type="text" id="address" value="<?php echo getSessionAddress();?>" name="address">
-			<br>
+			<br><br>
 
             <label for="about">About Me (max 10000 characters):</label>
             <textarea id="about" name="about" rows="5" cols="105" maxlength="10000"><?php echo getSessionAbout();?></textarea>
-			<br>
+			<br><br>
 
             <button type="submit">Save Changes</button>
         </form>

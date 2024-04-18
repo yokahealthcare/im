@@ -23,37 +23,14 @@ function fetchUserProfile($email): bool|string
 function fetchUserApply($email): bool|string
 {
     global $db;
-    $sql = "SELECT * FROM apply WHERE user_id='$email';";
+    $sql = "SELECT * FROM vacancy WHERE EXISTS (SELECT * FROM apply WHERE vacancy.id = apply.vacancy_id)";
     $applies = $db->fetchAllRow($sql);
     return json_encode($applies);
 }
 
 
 
-function fetchAllVacancy($search=''): bool|string
-{
-    global $db;
-    $sql = "SELECT * FROM vacancy WHERE title LIKE '%$search%';";
 
-    $vacancies = $db->fetchAllRow($sql);
-    return json_encode($vacancies);
-}
-
-function fetchVacancyInfo($vacancy_id): bool|string
-{
-    global $db;
-    $sql = "SELECT * FROM vacancy WHERE id='$vacancy_id';";
-    $vacancy = $db->fetchAllRow($sql);
-    return json_encode($vacancy);
-}
-
-function fetchCompanyInfo($company_id): bool|string
-{
-    global $db;
-    $sql = "SELECT * FROM company_account WHERE email='$company_id';";
-    $vacancy = $db->fetchAllRow($sql);
-    return json_encode($vacancy);
-}
 
 
 /*
@@ -119,7 +96,7 @@ function validateUserSignup($name, $email, $password)
     try {
         $isDataInsertedSuccessfully = $db->insertRow($sql);
         if ($isDataInsertedSuccessfully) {
-            sendVerificationEmail($email);
+            sendUserVerificationEmail($email);
 
             $rt->code = 200;
             $rt->message = "signup_success";
@@ -234,6 +211,29 @@ function validateUserApplyVacancy($id, $user_id, $vacancy_id)
 
         $rt->code = 400;
         $rt->message = "apply_failed";
+        return $rt;
+    } catch (PDOException $e) {
+        $rt->code = 500;
+        $rt->message = "database_error : $e";
+        return $rt;
+    }
+}
+
+function validateUserRemoveVacancy($vacancy_id)
+{
+    global $db, $rt;
+    $sqlRemove = "DELETE FROM apply WHERE vacancy_id='$vacancy_id';";
+
+    try {
+        $isApplyDeleted = $db->deleteRow($sqlRemove);
+        if ($isApplyDeleted) {
+            $rt->code = 200;
+            $rt->message = "apply_remove_success";
+            return $rt;
+        }
+
+        $rt->code = 400;
+        $rt->message = "apply_remove_failed";
         return $rt;
     } catch (PDOException $e) {
         $rt->code = 500;

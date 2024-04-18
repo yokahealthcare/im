@@ -40,37 +40,36 @@ if(!isLogged()) {
 
              <a href="user_edit_profile.php" class="edit-btn">Edit Profile</a>
 			
-			<!-- List of applied vacancies -->
+			<br><br>
             <h3>Applied Vacancies</h3>
             <ul>
                 <?php
                     $vacancies = json_decode(fetchUserApply(getSessionEmail()), associative: true);
                     foreach($vacancies as $vacancy) {
+                        $id = $vacancy["id"];
+                        $title = $vacancy["title"];
+                        $location = $vacancy["location"];
+                        $description = $vacancy["description"];
+                        $workplace_type = $vacancy["workplace_type"];
+                        $job_type = $vacancy["job_type"];
+                        $status = $vacancy["status"];
+                        $company_id = $vacancy["company_id"];
+
+                        $company = json_decode(fetchCompanyInfo($company_id), associative: true)[0];
+                        $company_name = $company['name'];
+
                         echo "<li>
-                            <p><strong>Title:</strong> Software Developer Intern</p>
-                            <p><strong>Company:</strong> Company A</p>
-                            <button class=\"delete-btn\">Delete</button>
+                            <p><strong>Title:</strong> $title</p>
+                            <p><strong>Company:</strong> $company_name</p>
+                            <form action='/api/user/vacancy/remove' method='post'>
+                                <input type='hidden' name='vacancy_id' value='$id'>
+                                <button type='submit' class=\"delete-btn\">Delete</button>
+                            </form>
                         </li>";
                     }
 
 
                 ?>
-
-
-                <!-- Add more applied vacancies here -->
-            </ul>
-
-            <!-- List of added vacancies -->
-            <h3>Added Vacancies</h3>
-            <ul>
-                <li>
-                    <p><strong>Title:</strong> Marketing Intern</p>
-                    <p><strong>Company:</strong> Company B</p>
-                    <!-- Add more information about the added vacancy -->
-                    <button class="edit-btn">Edit</button>
-                    <button class="delete-btn">Delete</button>
-                </li>
-                <!-- Add more added vacancies here -->
             </ul>
         </div>
     </div>

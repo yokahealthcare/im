@@ -67,12 +67,57 @@ function getSessionAddress()
     return $_SESSION['address'];
 }
 
+function getSessionWebsite()
+{
+    return $_SESSION['website'];
+}
+
+function getSessionIndustry()
+{
+    return $_SESSION['industry'];
+}
+
+function getSessionFounded()
+{
+    return $_SESSION['founded'];
+}
+
+function getSessionSize()
+{
+    return $_SESSION['size'];
+}
+
 
 class ReturnValue {
     public $code;
     public $message;
 }
 $rt = new ReturnValue();
+
+function fetchAllVacancy($search=''): bool|string
+{
+    global $db;
+    $sql = "SELECT * FROM vacancy WHERE NOT EXISTS (SELECT * FROM apply WHERE vacancy.id = apply.vacancy_id) AND title LIKE '%$search%';";
+
+    $vacancies = $db->fetchAllRow($sql);
+    return json_encode($vacancies);
+}
+
+function fetchVacancyInfo($vacancy_id): bool|string
+{
+    global $db;
+    $sql = "SELECT * FROM vacancy WHERE id='$vacancy_id';";
+    $vacancy = $db->fetchAllRow($sql);
+    return json_encode($vacancy);
+}
+
+function fetchCompanyInfo($company_id): bool|string
+{
+    global $db;
+    $sql = "SELECT * FROM company_account WHERE email='$company_id';";
+    $vacancy = $db->fetchAllRow($sql);
+    return json_encode($vacancy);
+}
 
 function sendEmail($to, $subject, $message): int
 {
@@ -100,7 +145,49 @@ function validateLogout(): int
     return 200;
 }
 
-function sendVerificationEmail($email): void
+function validateUserSendResetPasswordEmail($email): void
+{
+    global $db;
+
+    $sql="SELECT * FROM user_account WHERE email='$email';";
+    $isAccountExist = $db->isDataExists($sql);
+    if ($isAccountExist) {
+        sendUserResetPasswordEmail($email);
+    }
+}
+
+function validateCompanySendResetPasswordEmail($email): void
+{
+    global $db;
+
+    $sql="SELECT * FROM company_account WHERE email='$email';";
+    $isAccountExist = $db->isDataExists($sql);
+    if ($isAccountExist) {
+        sendCompanyResetPasswordEmail($email);
+    }
+}
+
+function sendUserResetPasswordEmail($email): void
+{
+    $server = $_SERVER['SERVER_NAME'];
+    $port = $_SERVER['SERVER_PORT'];
+    $subject = "Reset Password";
+    $message = "Sorry for your lost password. One more step, we need to reset your password account by clicking this link, http://$server:$port/user_reset_password.php?email=$email";
+
+    sendEmail($email, $subject, $message);
+}
+
+function sendCompanyResetPasswordEmail($email): void
+{
+    $server = $_SERVER['SERVER_NAME'];
+    $port = $_SERVER['SERVER_PORT'];
+    $subject = "Reset Password";
+    $message = "Sorry for your lost password. One more step, we need to reset your password account by clicking this link, http://$server:$port/company_reset_password.php?email=$email";
+
+    sendEmail($email, $subject, $message);
+}
+
+function sendUserVerificationEmail($email): void
 {
     $server = $_SERVER['SERVER_NAME'];
     $port = $_SERVER['SERVER_PORT'];
@@ -110,24 +197,12 @@ function sendVerificationEmail($email): void
     sendEmail($email, $subject, $message);
 }
 
-
-function validateSendResetPasswordEmail($email): void
-{
-    global $db;
-
-    $sql="SELECT * FROM account WHERE email='$email';";
-    $isAccountExist = $db->isDataExists($sql);
-    if ($isAccountExist) {
-        sendResetPasswordEmail($email);
-    }
-}
-
-function sendResetPasswordEmail($email): void
+function sendCompanyVerificationEmail($email): void
 {
     $server = $_SERVER['SERVER_NAME'];
     $port = $_SERVER['SERVER_PORT'];
-    $subject = "Reset Password";
-    $message = "Sorry for your lost password. One more step, we need to reset your password account by clicking this link, http://$server:$port/user_reset_password.php?email=$email";
+    $subject = "New Account Verification";
+    $message = "Thank you for joining with us. One more step, we need to verify your account by clicking this link, http://$server:$port/api/company/account/verified?email=$email";
 
     sendEmail($email, $subject, $message);
 }

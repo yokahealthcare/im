@@ -105,7 +105,7 @@ $app->post('/api/user/email/send_reset_password', function (Request $request, Re
      * input['email']           : Recipient email
      */
 
-    validateSendResetPasswordEmail($input['email']);
+    validateUserSendResetPasswordEmail($input['email']);
     send200("../../../user_login.php", "reset_password_email_sent_successfully");
 });
 
@@ -185,7 +185,7 @@ $app->post('/api/user/account/update', function (Request $request, Response $res
     /*
      * input['email']           : Email of the person
      * input['name']            : Name of the person
-     * input['about']         : Description about that person (length: 1000)
+     * input['about']         : Description about that person (length: 10000)
      * input['address']         : Address of person
      */
 
@@ -249,6 +249,27 @@ $app->post('/api/user/vacancy/apply', function (Request $request, Response $resp
 
 });
 
+$app->post('/api/user/vacancy/remove', function (Request $request, Response $response, $args) {
+    $input = (array)$request->getParsedBody();
+    /*
+     * input['vacancy_id']         : Vacancy ID being deleted
+     */
+
+    $status = validateUserRemoveVacancy($input['vacancy_id']);
+    $code = $status->code;
+    $message = $status->message;
+
+    if ($code == 200) {
+        send200("../../../user_profile.php", $message);
+    } elseif ($code == 400) {
+        send400("../../../user_profile.php", $message);
+    } elseif ($code == 500) {
+        send500("../../../user_profile.php", $message);
+    }
+    return $response;
+
+});
+
 
 
 
@@ -262,26 +283,145 @@ $app->post('/api/user/vacancy/apply', function (Request $request, Response $resp
  *
  */
 
-$app->post('/api/company/vacancy/create', function (Request $request, Response $response, $args) {
+$app->post('/api/company/login', function (Request $request, Response $response, $args) {
     $input = (array)$request->getParsedBody();
     /*
-     * input['title']           : Title of the vacancy
-     * input['description']     : Description of the vacancy
-     * input['status']          : Status of the vacancy
-     * input['account']         : Account ID creator
+     * input['email']           : Company email
+     * input['password']        : Company password
      */
 
-    $id = uniqid(); // Create new apply ID
-    $status = validateCompanyCreateVacancy($id, $input['title'], $input['description'], $input['status'], $input['account']);
+    $status = validateCompanyLogin($input['email'], $input['password']);
     $code = $status->code;
     $message = $status->message;
 
     if ($code == 200) {
-        send200("../../../vacancy.php", $message);
+        send200("../../company_dashboard.php", $message);
     } elseif ($code == 400) {
-        send400("../../../vacancy.php", $message);
+        send400("../../company_login.php", $message);
     } elseif ($code == 500) {
-        send500("../../../vacancy.php", $message);
+        send500("../../company_login.php", $message);
+    }
+    return $response;
+});
+
+$app->post('/api/company/signup', function (Request $request, Response $response, $args) {
+    $input = (array)$request->getParsedBody();
+    /*
+     * input['name']            : Name of the company
+     * input['email']           : Company email
+     * input['password']        : Company password
+     * input['industry']        : Company industry
+     * input['founded']         : Company founded
+     * input['size']            : Company size
+     */
+
+    $status = validateCompanySignup($input['name'], $input['email'], $input['password'], $input["industry"], $input["founded"], $input["size"]);
+    $code = $status->code;
+    $message = $status->message;
+
+    if ($code == 200) {
+        send200("../../company_email_verification.php", $message);
+    } elseif ($code == 400) {
+        send400("../../company_signup.php", $message);
+    } elseif ($code == 500) {
+        send500("../../company_signup.php", $message);
+    }
+    return $response;
+});
+
+$app->get('/api/company/account/verified', function (Request $request, Response $response, $args) {
+    $input = $request->getQueryParams();
+    /*
+     * input['email']            : Email of the account
+     */
+
+    $status = validateCompanyVerifyAccount($input['email']);
+    $code = $status->code;
+    $message = $status->message;
+
+    if ($code == 200) {
+        send200("../../../company_login.php", $message);
+    } elseif ($code == 400) {
+        send400("../../../company_login.php", $message);
+    } elseif ($code == 500) {
+        send500("../../../company_login.php", $message);
+    }
+
+    return $response;
+});
+
+$app->post('/api/company/account/update', function (Request $request, Response $response, $args) {
+    $input = (array)$request->getParsedBody();
+    /*
+     * input['email']           : Email of the company
+     * input['name']            : Name of the company
+     * input['about']           : Description about that company (length: 10000)
+     * input['address']         : Address of company
+     * input['website']         : Website of company
+     * input['industry']        : Industry of company
+     * input['founded']         : Founded of company
+     * input['size']            : Size of company
+     */
+
+    $status = validateCompanyUpdateAccount($input['email'], $input['name'], $input['about'], $input['address'], $input['website'], $input['industry'], $input['founded'], $input['founded']);
+    $code = $status->code;
+    $message = $status->message;
+
+    if ($code == 200) {
+        send200("../../../user_profile.php", $message);
+    } elseif ($code == 400) {
+        send400("../../../user_profile.php", $message);
+    } elseif ($code == 500) {
+        send500("../../../user_profile.php", $message);
+    }
+    return $response;
+
+});
+
+$app->post('/api/company/password/update', function (Request $request, Response $response, $args) {
+    $input = (array)$request->getParsedBody();
+    /*
+     * input['email']           : User email
+     * input['password']        : User new password
+     */
+
+    $status = validateCompanyUpdatePassword($input['email'], $input['password']);
+    $code = $status->code;
+    $message = $status->message;
+
+    if ($code == 200) {
+        send200("../../../user_login.php", $message);
+    } elseif ($code == 400) {
+        send400("../../../user_login.php", $message);
+    } elseif ($code == 500) {
+        send500("../../../user_login.php", $message);
+    }
+    return $response;
+});
+
+$app->post('/api/company/vacancy/create', function (Request $request, Response $response, $args) {
+    $input = (array)$request->getParsedBody();
+    /*
+     * input['title']               : Title of the vacancy
+     * input['location']            : Location of the vacancy
+     * input['description']         : Description of the vacancy
+     * input['workplace_type']      : Work place type  of the vacancy
+     * input['job_type']            : Job type of the vacancy
+     * input['status']              : Status of the vacancy
+     * input['company_id']          : Account ID creator
+     */
+
+    $id = uniqid(); // Create new apply ID
+    $status = validateCompanyCreateVacancy($id, $input['title'], $input['location'], $input['description'], $input['workplace_type'], $input['job_type'], $input['status'], $input['company_id']);
+    $code = $status->code;
+    $message = $status->message;
+
+    if ($code == 200) {
+        send200("../../../company_vacancy.php", $message);
+    } elseif ($code == 400) {
+        send400("../../../company_vacancy.php", $message);
+    } elseif ($code == 500) {
+        send500("../../../company_vacancy.php", $message);
     }
     return $response;
 
@@ -290,22 +430,26 @@ $app->post('/api/company/vacancy/create', function (Request $request, Response $
 $app->post('/api/company/vacancy/update', function (Request $request, Response $response, $args) {
     $input = (array)$request->getParsedBody();
     /*
-     * input['id']                  : Vacancy ID
-     * input['title']               : Title of vacancy
-     * input['description']         : Description of vacancy
-     * input['status']              : Status of vacancy
+     * input['id']                  : Id of the vacancy
+     * input['title']               : Title of the vacancy
+     * input['location']            : Location of the vacancy
+     * input['description']         : Description of the vacancy
+     * input['workplace_type']      : Work place type  of the vacancy
+     * input['job_type']            : Job type of the vacancy
+     * input['status']              : Status of the vacancy
      */
 
-    $status = validateCompanyUpdateVacancy($input['id'], $input['title'], $input['description'], $input['status']);
+
+    $status = validateCompanyUpdateVacancy($input['id'], $input['title'], $input['location'], $input['description'], $input['workplace_type'], $input['job_type'], $input['status']);
     $code = $status->code;
     $message = $status->message;
 
     if ($code == 200) {
-        send200("../../../vacancy.php", $message);
+        send200("../../../company_vacancy.php", $message);
     } elseif ($code == 400) {
-        send400("../../../vacancy.php", $message);
+        send400("../../../company_vacancy.php", $message);
     } elseif ($code == 500) {
-        send500("../../../vacancy.php", $message);
+        send500("../../../company_vacancy.php", $message);
     }
     return $response;
 });
@@ -321,11 +465,11 @@ $app->post('/api/company/vacancy/remove', function (Request $request, Response $
     $message = $status->message;
 
     if ($code == 200) {
-        send200("../../../vacancy.php", $message);
+        send200("../../../company_vacancy.php", $message);
     } elseif ($code == 400) {
-        send400("../../../vacancy.php", $message);
+        send400("../../../company_vacancy.php", $message);
     } elseif ($code == 500) {
-        send500("../../../vacancy.php", $message);
+        send500("../../../company_vacancy.php", $message);
     }
     return $response;
 });

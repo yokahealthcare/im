@@ -52,7 +52,7 @@ $company_name = $company['name'];
             <h3><?php echo $title;?></h3>
             <p><strong>Company:</strong> <?php echo $company_name;?></p>
             <p><strong>Location:</strong> <?php echo $location;?></p>
-            <p><strong>Job Description:</strong> <?php echo $description;?></p>
+            <p><strong>Job Description:</strong><br><br> <?php echo $description;?></p><br>
             <p><strong>Workplace Type:</strong> <?php echo $workplace_type;?></p>
             <p><strong>Job Type:</strong> <?php echo $job_type;?></p>
             <p><strong>Status:</strong> <?php echo $status;?></p>

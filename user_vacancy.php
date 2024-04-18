@@ -57,29 +57,7 @@ $vacancies = json_decode(fetchAllVacancy($searchKeyword), true)
             </div>
 			<br>";
             }
-
-
             ?>
-
-            <!-- Vacancy 1 -->
-
-            <!-- Vacancy 2 -->
-            <div class="vacancy">
-                <div class="vacancy-info">
-                    <h3>Marketing Intern</h3>
-                    <p>Explore the world of marketing with Company 2 as a Marketing Intern. Work on exciting projects and gain valuable insights into digital marketing strategies.</p>
-                    <a href="marketingapply.html" class="show-more">Show More</a>
-                </div>
-            </div>
-			<br>
-            <!-- Vacancy 3 -->
-            <div class="vacancy">
-                <div class="vacancy-info">
-                    <h3>Graphic Design Intern</h3>
-                    <p>Unleash your creativity with Company 3 as a Graphic Design Intern. Create stunning visual content and contribute to exciting design projects.</p>
-                    <a href="graphicapply.html" class="show-more">Show More</a>
-                </div>
-            </div>
 
             <!-- Add more vacancies here -->
         </div>

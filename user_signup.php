@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="container">
-        <h2>Sign Up</h2>
+        <h2>User Sign Up</h2>
         <form action="/api/user/signup" method="POST">
             <div class="form-group">
                 <label for="name">Name:</label>
@@ -24,6 +24,9 @@
             </div>
             <div class="form-group">
                 <button type="submit">Sign Up</button>
+            </div>
+            <div class="form-group">
+                <p>Already have an account? <a href="user_login.php">Login</a></p>
             </div>
         </form>
     </div>

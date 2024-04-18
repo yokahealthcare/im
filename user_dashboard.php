@@ -27,7 +27,7 @@ if(!isLogged()) {
         <h2>Welcome to Your Dashboard</h2>
         <p>Hello, <?php echo getSessionName(); ?>!</p>
         <div class="tabs">
-            <a href="dashboard.html" class="tablink">Home</a>
+            <a href="user_dashboard.php" class="tablink">Home</a>
             <a href="user_vacancy.php" class="tablink">Vacancy</a>
             <a href="user_profile.php" class="tablink">Profile</a>
             <a href="/api/logout" class="tablink">Logout</a>
