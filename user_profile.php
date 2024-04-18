@@ -19,9 +19,14 @@ if(!isLogged()) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
+    <!-- Font Awesome CDN link for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link rel="stylesheet" href="css/toast.css">
+
     <link rel="stylesheet" href="css/mainstyles.css">
 </head>
 <body>
+    <ul class="notifications"></ul>
     <div class="container">
         <h2>Profile</h2>
         <div class="tabs">
@@ -35,10 +40,11 @@ if(!isLogged()) {
             <h3>User Information</h3>
             <p><strong>Name:</strong> <?php echo getSessionName();?></p>
             <p><strong>Email:</strong> <?php echo getSessionEmail();?></p>
-			<p><strong>About Me:</strong> <?php echo getSessionAbout();?></p>
+            <strong>About Me:</strong>
+            <p><?php echo getSessionAbout();?></p>
             <p><strong>Address:</strong> <?php echo getSessionAddress()?></p>
 
-             <a href="user_edit_profile.php" class="edit-btn">Edit Profile</a>
+            <a href="user_edit_profile.php" class="edit-btn"><button>Edit Profile</button></a>
 			
 			<br><br>
             <h3>Applied Vacancies</h3>
@@ -67,11 +73,10 @@ if(!isLogged()) {
                             </form>
                         </li>";
                     }
-
-
                 ?>
             </ul>
         </div>
     </div>
+    <script src="js/toast.js"></script>
 </body>
 </html>

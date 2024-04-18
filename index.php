@@ -42,14 +42,24 @@ $errorMiddleware = $app->addErrorMiddleware(true, true, true);
 // Initiate DB Instance
 $db = new DB();
 
+/*
+ * UTILITY
+ */
+
 $app->get('/api', function (Request $request, Response $response, $args) {
     $response->getBody()->write("Testing page, if you can see this page then it working!");
     return $response;
 });
 
+$app->get('/api/logout', function (Request $request, Response $response, $args) {
+    validateLogout();
+    send200("../user_login.php", "logout_success");
+});
+
 /*
- * FETCHING API
+ * USER
  */
+
 
 $app->get('/api/user/profile/fetch', function (Request $request, Response $response) {
     $input = $request->getQueryParams();
@@ -86,19 +96,6 @@ $app->get('/api/user/apply/fetch', function (Request $request, Response $respons
 });
 
 
-/*
- * UTILITY
- */
-$app->get('/api/logout', function (Request $request, Response $response, $args) {
-    validateLogout();
-    send200("../welcome.php", "logout_success");
-});
-
-
-/*
- * USER
- */
-
 $app->post('/api/user/email/send_reset_password', function (Request $request, Response $response, $args) {
     $input = (array)$request->getParsedBody();
     /*
@@ -109,9 +106,6 @@ $app->post('/api/user/email/send_reset_password', function (Request $request, Re
     send200("../../../user_login.php", "reset_password_email_sent_successfully");
 });
 
-/*
- * VALIDATOR API
- */
 
 $app->post('/api/user/login', function (Request $request, Response $response, $args) {
     $input = (array)$request->getParsedBody();
@@ -133,9 +127,6 @@ $app->post('/api/user/login', function (Request $request, Response $response, $a
     }
     return $response;
 });
-
-
-
 
 $app->post('/api/user/signup', function (Request $request, Response $response, $args) {
     $input = (array)$request->getParsedBody();
@@ -275,8 +266,6 @@ $app->post('/api/user/vacancy/remove', function (Request $request, Response $res
 
 
 
-
-
 /*
  *
  * COMPANY
@@ -317,6 +306,32 @@ $app->get('/api/company/apply/fetch', function (Request $request, Response $resp
     $response->getBody()->write($applies);
     return $response->withHeader('content-type', 'application/json')->withStatus(200);
 });
+
+
+
+$app->post('/api/company/email/send_reset_password', function (Request $request, Response $response, $args) {
+    $input = (array)$request->getParsedBody();
+    /*
+     * input['email']           : Recipient email
+     */
+
+    validateCompanySendResetPasswordEmail($input['email']);
+    send200("../../../company_login.php", "reset_password_email_sent_successfully");
+});
+
+$app->post('/api/company/email/send_vacancy_approve', function (Request $request, Response $response, $args) {
+    $input = (array)$request->getParsedBody();
+    /*
+     * input['email']                   : Recipient email
+     * input['company_name']            : Company name that being applied
+     * input['job_title']               : Job title that being applied
+     * input['vacancy_id']               : Job ID that being applied
+     */
+
+    validateCompanySendVacancyApproveEmail($input['email'], $input['company_name'], $input['job_title'], $input['vacancy_id']);
+    send200("../../../company_profile.php", "vacancy_approval_email_sent_successfully");
+});
+
 
 $app->post('/api/company/login', function (Request $request, Response $response, $args) {
     $input = (array)$request->getParsedBody();
@@ -398,7 +413,7 @@ $app->post('/api/company/account/update', function (Request $request, Response $
      * input['size']            : Size of company
      */
 
-    $status = validateCompanyUpdateAccount($input['email'], $input['name'], $input['about'], $input['address'], $input['website'], $input['industry'], $input['founded'], $input['founded']);
+    $status = validateCompanyUpdateAccount($input['email'], $input['name'], $input['about'], $input['address'], $input['website'], $input['industry'], $input['founded'], $input['size']);
     $code = $status->code;
     $message = $status->message;
 

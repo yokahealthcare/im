@@ -18,10 +18,15 @@ if(!isLogged()) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
+    <!-- Font Awesome CDN link for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link rel="stylesheet" href="css/toast.css">
+
     <link rel="stylesheet" href="css/mainstyles.css">
 </head>
 <body>
 <div class="container">
+    <ul class="notifications"></ul>
     <h2>Welcome to Your Dashboard</h2>
     <p>Hello, <?php echo getSessionName(); ?>!</p>
     <div class="tabs">
@@ -35,6 +40,7 @@ if(!isLogged()) {
         <p>This is the Home tab content.</p>
     </div>
 </div>
+<script src="js/toast.js"></script>
 </body>
 </html>
 

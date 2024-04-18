@@ -68,12 +68,7 @@ class DB
     {
         $conn = $this->connect();
         $stmt = $conn->query($sql);
-
-        if ($stmt->rowCount() > 0) {
-            return true; // Data updated
-        } else {
-            return false; // No data updated
-        }
+        return true;
     }
 
 

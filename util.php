@@ -97,7 +97,7 @@ $rt = new ReturnValue();
 function fetchAllVacancy($search=''): bool|string
 {
     global $db;
-    $sql = "SELECT * FROM vacancy WHERE NOT EXISTS (SELECT * FROM apply WHERE vacancy.id = apply.vacancy_id) AND title LIKE '%$search%';";
+    $sql = "SELECT * FROM vacancy WHERE NOT EXISTS (SELECT * FROM apply WHERE vacancy.id = apply.vacancy_id) AND title LIKE '%$search%'AND status = 'Open';";
 
     $vacancies = $db->fetchAllRow($sql);
     return json_encode($vacancies);
@@ -167,11 +167,26 @@ function validateCompanySendResetPasswordEmail($email): void
     }
 }
 
+function validateCompanySendVacancyApproveEmail($email, $company_name, $job_title, $vacancy_id): void
+{
+    global $db;
+
+    $sql="SELECT * FROM user_account WHERE email='$email';";
+    $isAccountExist = $db->isDataExists($sql);
+    if ($isAccountExist) {
+        sendCompanyVacancyApproveEmail($email, $company_name, $job_title);
+
+        # delete the data
+        $sqlRemove = "DELETE FROM apply WHERE user_id='$email' AND vacancy_id='$vacancy_id';";
+        $db->deleteRow($sqlRemove);
+    }
+}
+
 function sendUserResetPasswordEmail($email): void
 {
     $server = $_SERVER['SERVER_NAME'];
     $port = $_SERVER['SERVER_PORT'];
-    $subject = "Reset Password";
+    $subject = "InternMatch - Reset Password";
     $message = "Sorry for your lost password. One more step, we need to reset your password account by clicking this link, http://$server:$port/user_reset_password.php?email=$email";
 
     sendEmail($email, $subject, $message);
@@ -181,7 +196,7 @@ function sendCompanyResetPasswordEmail($email): void
 {
     $server = $_SERVER['SERVER_NAME'];
     $port = $_SERVER['SERVER_PORT'];
-    $subject = "Reset Password";
+    $subject = "InternMatch - Reset Password";
     $message = "Sorry for your lost password. One more step, we need to reset your password account by clicking this link, http://$server:$port/company_reset_password.php?email=$email";
 
     sendEmail($email, $subject, $message);
@@ -191,7 +206,7 @@ function sendUserVerificationEmail($email): void
 {
     $server = $_SERVER['SERVER_NAME'];
     $port = $_SERVER['SERVER_PORT'];
-    $subject = "New Account Verification";
+    $subject = "InternMatch - New Account Verification";
     $message = "Thank you for joining with us. One more step, we need to verify your account by clicking this link, http://$server:$port/api/user/account/verified?email=$email";
 
     sendEmail($email, $subject, $message);
@@ -201,21 +216,19 @@ function sendCompanyVerificationEmail($email): void
 {
     $server = $_SERVER['SERVER_NAME'];
     $port = $_SERVER['SERVER_PORT'];
-    $subject = "New Account Verification";
+    $subject = "InternMatch - New Account Verification";
     $message = "Thank you for joining with us. One more step, we need to verify your account by clicking this link, http://$server:$port/api/company/account/verified?email=$email";
 
     sendEmail($email, $subject, $message);
 }
 
 
-function sendCompanyInterviewEmail($email): void
+function sendCompanyVacancyApproveEmail($email, $company_name, $job_title): void
 {
     $server = $_SERVER['SERVER_NAME'];
     $port = $_SERVER['SERVER_PORT'];
-    $subject = "Congratulations! Your job applicant has been choosen";
-    $message = "
-    <h1>Congratulations!</h1>
-    Thank you for joining with us. One more step, we need to verify your account by clicking this link, http://$server:$port/api/company/account/verified?email=$email";
+    $subject = "InternMatch - Congratulations!";
+    $message = "We are pleased to inform you that you have been selected as a potential candidate for the <b>$job_title</b> position at <b>$company_name</b>. Your application stood out among a competitive pool, and we'd like to learn more about your qualifications and how you could contribute to our team. <br><br> We will hold a follow-up session, namely an interview session, you can determine the day and time by replying to this email. <br><br> Thank You <br> <b>$company_name</b>";
 
     sendEmail($email, $subject, $message);
 }

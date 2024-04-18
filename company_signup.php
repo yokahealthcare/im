@@ -4,9 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
+    <!-- Font Awesome CDN link for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link rel="stylesheet" href="css/toast.css">
+
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+<ul class="notifications"></ul>
 <div class="container">
     <h2>Company Sign Up</h2>
     <form action="/api/company/signup" method="POST">
@@ -53,7 +58,7 @@
         </div>
         <div class="form-group">
             <label for="founded">Founded:</label>
-            <input type="text" id="founded" name="founded" required>
+            <select name="founded" id="founded"></select>
         </div>
         <div class="form-group">
             <label for="size">Size of employees:</label>
@@ -73,6 +78,22 @@
             <p>Already have an account? <a href="company_login.php">Login</a></p>
         </div>
     </form>
+    <script>
+        const yearDropdown = document.getElementById("founded");
+        const currentYear = new Date().getFullYear();
+
+        for (let year = currentYear - 100; year <= currentYear; year++) {
+            const option = document.createElement("option");
+            option.value = year;
+            option.innerHTML = year;
+            if (year === currentYear) {
+                option.selected = true;
+            }
+            yearDropdown.appendChild(option);
+        }
+
+    </script>
 </div>
+<script src="js/toast.js"></script>
 </body>
 </html>

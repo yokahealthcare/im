@@ -23,7 +23,7 @@ function fetchUserProfile($email): bool|string
 function fetchUserApply($email): bool|string
 {
     global $db;
-    $sql = "SELECT * FROM vacancy WHERE EXISTS (SELECT * FROM apply WHERE vacancy.id = apply.vacancy_id)";
+    $sql = "SELECT * FROM vacancy WHERE EXISTS (SELECT * FROM apply WHERE vacancy.id = apply.vacancy_id) AND status = 'open';";
     $applies = $db->fetchAllRow($sql);
     return json_encode($applies);
 }

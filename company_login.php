@@ -15,9 +15,14 @@ if(isset($_SESSION['email']) && isset($_SESSION['name']) && isset($_SESSION['abo
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <!-- Font Awesome CDN link for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link rel="stylesheet" href="css/toast.css">
+
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+<ul class="notifications"></ul>
 <div class="container">
     <h2>Company Login</h2>
     <form action="/api/company/login" method="POST">
@@ -40,5 +45,11 @@ if(isset($_SESSION['email']) && isset($_SESSION['name']) && isset($_SESSION['abo
         </div>
     </form>
 </div>
+
+<div class="container">
+    <h3 style="text-align: center;">Want to apply a job?</h3>
+    <a href="user_login.php"><button type="submit">For Candidates <i class="fa fa-arrow-right"></i></button></a>
+</div>
+<script src="js/toast.js"></script>
 </body>
 </html>

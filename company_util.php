@@ -28,10 +28,10 @@ function fetchCompanyVacancy($company_id, $search=''): bool|string
     return json_encode($customers);
 }
 
-function fetchCompanyApply($company_id): bool|string
+function fetchCompanyApply($vacancy_id): bool|string
 {
     global $db;
-    $sql = "SELECT * FROM user_account WHERE EXISTS (SELECT * FROM apply WHERE user_id.email = apply.user_id)";
+    $sql = "SELECT * FROM apply WHERE vacancy_id='$vacancy_id';";
     $applies = $db->fetchAllRow($sql);
     return json_encode($applies);
 }
@@ -109,7 +109,7 @@ function validateCompanySignup($name, $email, $password, $industry, $founded, $s
     try {
         $isDataInsertedSuccessfully = $db->insertRow($sql);
         if ($isDataInsertedSuccessfully) {
-            sendUserVerificationEmail($email);
+            sendCompanyVerificationEmail($email);
 
             $rt->code = 200;
             $rt->message = "signup_success";
@@ -216,9 +216,9 @@ function validateCompanyUpdateVacancy($id, $title, $location, $description, $wor
                    description='$description',
                    workplace_type='$workplace_type',
                    job_type='$job_type',
-                   status='$status', 
+                   status='$status'
                WHERE id='$id';";
-
+    echo $sql;
     try {
         $isVacancyUpdated = $db->updateData($sql);
         if ($isVacancyUpdated) {
@@ -263,7 +263,7 @@ function validateCompanyCreateVacancy($id, $title, $location, $description, $wor
 function validateCompanyRemoveVacancy($id)
 {
     global $db, $rt;
-    $sqlApplyTable = "DELETE FROM apply WHERE vacancy='$id';";
+    $sqlApplyTable = "DELETE FROM apply WHERE vacancy_id='$id';";
     $sqlVacancyTable = "DELETE FROM vacancy WHERE id='$id';";
 
     try {

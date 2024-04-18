@@ -37,9 +37,14 @@ $company_name = $company['name'];
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Apply for Vacancy</title>
+    <!-- Font Awesome CDN link for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link rel="stylesheet" href="css/toast.css">
+
     <link rel="stylesheet" href="css/mainstyles.css">
 </head>
-<body>    
+<body>
+    <ul class="notifications"></ul>
 	<div class="container">
         <h2>Apply for Vacancy</h2>
         <div class="tabs">
@@ -63,5 +68,6 @@ $company_name = $company['name'];
             <button type="submit">Apply Now</button>
         </form>
     </div>
+    <script src="js/toast.js"></script>
 </body>
 </html>

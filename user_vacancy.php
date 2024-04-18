@@ -13,7 +13,6 @@ if(!isLogged()) {
 $searchKeyword = "";
 if(isset($_GET['search']))
     $searchKeyword = $_GET['search'];
-$vacancies = json_decode(fetchAllVacancy($searchKeyword), true)
 
 ?>
 
@@ -23,11 +22,16 @@ $vacancies = json_decode(fetchAllVacancy($searchKeyword), true)
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vacancy</title>
+    <!-- Font Awesome CDN link for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link rel="stylesheet" href="css/toast.css">
+
     <link rel="stylesheet" href="css/mainstyles.css">
 </head>
 <body>
+    <ul class="notifications"></ul>
     <div class="container">
-        <h2>Vacancy</h2>
+        <h2>Available Vacancy on the Market</h2>
         <div class="tabs">
             <a href="user_dashboard.php" class="tablink">Home</a>
             <a href="user_vacancy.php" class="tablink">Vacancy</a>
@@ -48,10 +52,14 @@ $vacancies = json_decode(fetchAllVacancy($searchKeyword), true)
                 $status = $vacancy["status"];
                 $company_id = $vacancy["company_id"];
 
+                $company = json_decode(fetchCompanyInfo($company_id), associative: true)[0];
+                $company_name = $company['name'];
+
                 echo "<div class=\"vacancy\">
                 <div class=\"vacancy-info\">
+                    <b>$company_name</b>
                     <h3>$title</h3>
-                    <p>$description</p>
+                    <p>$location | $workplace_type | $job_type</p>
                     <a href=\"user_apply_vacancy.php?vacancy_id=$id\" class=\"show-more\">Show More</a>
                 </div>
             </div>
@@ -62,6 +70,7 @@ $vacancies = json_decode(fetchAllVacancy($searchKeyword), true)
             <!-- Add more vacancies here -->
         </div>
     </div>
+    <script src="js/toast.js"></script>
 </body>
 </html>
 
