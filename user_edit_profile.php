@@ -36,7 +36,7 @@ if(!isLogged()) {
 			<br><br>
 
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" value="<?php echo getSessionEmail();?>" required>
+            <input type="email" id="email" name="email" value="<?php echo getSessionEmail();?>" required disabled>
 			<br><br>
 
             <label for="address">Address:</label>

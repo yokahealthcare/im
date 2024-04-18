@@ -283,6 +283,41 @@ $app->post('/api/user/vacancy/remove', function (Request $request, Response $res
  *
  */
 
+$app->get('/api/company/profile/fetch', function (Request $request, Response $response) {
+    $input = $request->getQueryParams();
+    /*
+     * input['email']           : User email
+     */
+    $customers = fetchCompanyProfile($input['email']);
+    $response->getBody()->write($customers);
+    return $response->withHeader('content-type', 'application/json')->withStatus(200);
+});
+
+$app->get('/api/company/vacancy/fetch', function (Request $request, Response $response, $args) {
+    $input = $request->getQueryParams();
+    /*
+     * input['company_id']               : Email of the company
+     * input['search']              : Search Vacancy by Query
+     */
+    if(isset($input['search']))
+        $vacancies = fetchCompanyVacancy($input['company_id'], $input['search']);
+    else
+        $vacancies = fetchCompanyVacancy($input['company_id']);
+
+    $response->getBody()->write($vacancies);
+    return $response->withHeader('content-type', 'application/json')->withStatus(200);
+});
+
+$app->get('/api/company/apply/fetch', function (Request $request, Response $response, $args) {
+    $input = $request->getQueryParams();
+    /*
+     * input['company_id']           : User email
+     */
+    $applies = fetchCompanyApply($input['company_id']);
+    $response->getBody()->write($applies);
+    return $response->withHeader('content-type', 'application/json')->withStatus(200);
+});
+
 $app->post('/api/company/login', function (Request $request, Response $response, $args) {
     $input = (array)$request->getParsedBody();
     /*
@@ -368,11 +403,11 @@ $app->post('/api/company/account/update', function (Request $request, Response $
     $message = $status->message;
 
     if ($code == 200) {
-        send200("../../../user_profile.php", $message);
+        send200("../../../company_profile.php", $message);
     } elseif ($code == 400) {
-        send400("../../../user_profile.php", $message);
+        send400("../../../company_profile.php", $message);
     } elseif ($code == 500) {
-        send500("../../../user_profile.php", $message);
+        send500("../../../company_profile.php", $message);
     }
     return $response;
 
@@ -390,11 +425,11 @@ $app->post('/api/company/password/update', function (Request $request, Response 
     $message = $status->message;
 
     if ($code == 200) {
-        send200("../../../user_login.php", $message);
+        send200("../../../company_login.php", $message);
     } elseif ($code == 400) {
-        send400("../../../user_login.php", $message);
+        send400("../../../company_login.php", $message);
     } elseif ($code == 500) {
-        send500("../../../user_login.php", $message);
+        send500("../../../company_login.php", $message);
     }
     return $response;
 });

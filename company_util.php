@@ -19,6 +19,25 @@ function fetchCompanyProfile($email): bool|string
     return json_encode($customers);
 }
 
+function fetchCompanyVacancy($company_id, $search=''): bool|string
+{
+    global $db;
+    $sql = "SELECT * FROM vacancy WHERE company_id='$company_id' AND title LIKE '%$search%';;";
+
+    $customers = $db->fetchAllRow($sql);
+    return json_encode($customers);
+}
+
+function fetchCompanyApply($company_id): bool|string
+{
+    global $db;
+    $sql = "SELECT * FROM user_account WHERE EXISTS (SELECT * FROM apply WHERE user_id.email = apply.user_id)";
+    $applies = $db->fetchAllRow($sql);
+    return json_encode($applies);
+}
+
+
+
 
 
 /*
@@ -99,6 +118,87 @@ function validateCompanySignup($name, $email, $password, $industry, $founded, $s
 
         $rt->code = 400;
         $rt->message = "signup_failed";
+        return $rt;
+    } catch (PDOException $e) {
+        $rt->code = 500;
+        $rt->message = "database_error : $e";
+        return $rt;
+    }
+}
+
+function validateCompanyVerifyAccount($email)
+{
+    global $db, $rt;
+    $sql = "UPDATE company_account SET verified=1 WHERE email='$email';";
+
+    try {
+        $isVerifiedUpdated = $db->updateData($sql);
+        if ($isVerifiedUpdated) {
+            $rt->code = 200;
+            $rt->message = "verified_success";
+            return $rt;
+        }
+
+        $rt->code = 400;
+        $rt->message = "verified_failed";
+        return $rt;
+    } catch (PDOException $e) {
+        $rt->code = 500;
+        $rt->message = "database_error : $e";
+        return $rt;
+    }
+}
+
+function validateCompanyUpdateAccount($email, $name, $about, $address, $website, $industry, $founded, $size)
+{
+    global $db, $rt;
+    $sql = "UPDATE company_account SET name='$name', about='$about', address='$address', website='$website', industry='$industry', founded='$founded', size='$size' WHERE email='$email';";
+
+    try {
+        $isProfileUpdated = $db->updateData($sql);
+        if ($isProfileUpdated) {
+            # Session being updated also
+            $_SESSION['name'] = $name;
+            $_SESSION['email'] = $email;
+            $_SESSION['about'] = $about;
+            $_SESSION['address'] = $address;
+            $_SESSION['website'] = $website;
+            $_SESSION['industry'] = $industry;
+            $_SESSION['founded'] = $founded;
+            $_SESSION['size'] = $size;
+
+            $rt->code = 200;
+            $rt->message = "update_account_success";
+            return $rt;
+        }
+
+        $rt->code = 400;
+        $rt->message = "update_account_failed";
+        return $rt;
+    } catch (PDOException $e) {
+        $rt->code = 500;
+        $rt->message = "database_error : $e";
+        return $rt;
+    }
+}
+
+
+function validateCompanyUpdatePassword($email, $password)
+{
+    global $db, $rt;
+    $encryptedPassword = encryptPassword($password);
+    $sql = "UPDATE company_account SET password='$encryptedPassword' WHERE email='$email';";
+
+    try {
+        $isPasswordUpdated = $db->updateData($sql);
+        if ($isPasswordUpdated) {
+            $rt->code = 200;
+            $rt->message = "password_update_success";
+            return $rt;
+        }
+
+        $rt->code = 400;
+        $rt->message = "password_update_failed";
         return $rt;
     } catch (PDOException $e) {
         $rt->code = 500;

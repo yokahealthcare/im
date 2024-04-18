@@ -206,3 +206,16 @@ function sendCompanyVerificationEmail($email): void
 
     sendEmail($email, $subject, $message);
 }
+
+
+function sendCompanyInterviewEmail($email): void
+{
+    $server = $_SERVER['SERVER_NAME'];
+    $port = $_SERVER['SERVER_PORT'];
+    $subject = "Congratulations! Your job applicant has been choosen";
+    $message = "
+    <h1>Congratulations!</h1>
+    Thank you for joining with us. One more step, we need to verify your account by clicking this link, http://$server:$port/api/company/account/verified?email=$email";
+
+    sendEmail($email, $subject, $message);
+}

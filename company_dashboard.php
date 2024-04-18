@@ -10,8 +10,6 @@ if(!isLogged()) {
     exit();
 }
 
-
-
 ?>
 
 <!DOCTYPE html>
