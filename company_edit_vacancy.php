@@ -40,7 +40,7 @@ $status = $_POST['status'];
 <body>
 <ul class="notifications"></ul>
 <div class="container">
-    <h2>Edit Profile</h2>
+    <h2>Edit Vacancy</h2>
     <div class="tabs">
         <a href="company_dashboard.php" class="tablink">Home</a>
         <a href="company_vacancy.php" class="tablink">Vacancy</a>

@@ -18,7 +18,7 @@ if(!isLogged()) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
+    <title>Company Profile</title>
     <!-- Font Awesome CDN link for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
     <link rel="stylesheet" href="css/toast.css">
@@ -28,7 +28,7 @@ if(!isLogged()) {
 <body>
 <ul class="notifications"></ul>
 <div class="container">
-    <h2>Profile</h2>
+    <h2>Company Profile</h2>
     <div class="tabs">
         <a href="company_dashboard.php" class="tablink">Home</a>
         <a href="company_vacancy.php" class="tablink">Vacancy</a>
@@ -51,7 +51,7 @@ if(!isLogged()) {
         <a href="company_edit_profile.php" class="edit-btn"><button>Edit Profile</button></a>
 
         <br><br>
-        <h2>List of Cadidates Applied Vacancies</h2>
+        <h2>List of Candidates Applied Vacancies</h2>
         <ul>
             <?php
             $vacancies = json_decode(fetchCompanyVacancy(getSessionEmail()), associative: true);

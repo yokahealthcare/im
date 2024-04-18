@@ -21,7 +21,7 @@ if(isset($_GET['search']))
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vacancy</title>
+    <title>Company Vacancy</title>
     <!-- Font Awesome CDN link for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
     <link rel="stylesheet" href="css/toast.css">
@@ -42,6 +42,9 @@ if(isset($_GET['search']))
         <p style="text-align: right">
             <a href="company_add_vacancy.php"><button>Add Vacancy</button></a>
         </p>
+
+        <h2>Open Vacancy</h2>
+        <hr>
         <?php
         $vacancies = json_decode(fetchCompanyVacancy(getSessionEmail(), $searchKeyword), associative: true);
         foreach($vacancies as $vacancy) {
@@ -53,6 +56,9 @@ if(isset($_GET['search']))
             $job_type = $vacancy["job_type"];
             $status = $vacancy["status"];
             $company_id = $vacancy["company_id"];
+
+            if($status === "Close")
+                continue;
 
             echo "<div class=\"vacancy\">
                 <div class=\"vacancy-info\">
@@ -78,6 +84,46 @@ if(isset($_GET['search']))
         }
         ?>
 
+        <h2>Close Vacancy</h2>
+        <hr>
+        <?php
+        $vacancies = json_decode(fetchCompanyVacancy(getSessionEmail(), $searchKeyword), associative: true);
+        foreach($vacancies as $vacancy) {
+            $id = $vacancy["id"];
+            $title = $vacancy["title"];
+            $location = $vacancy["location"];
+            $description = $vacancy["description"];
+            $workplace_type = $vacancy["workplace_type"];
+            $job_type = $vacancy["job_type"];
+            $status = $vacancy["status"];
+            $company_id = $vacancy["company_id"];
+
+            if($status === "Open")
+                continue;
+
+            echo "<div class=\"vacancy\">
+                <div class=\"vacancy-info\">
+                    <h3>$title</h3>
+                    <p>$location | $workplace_type | $job_type</p>
+                    <form action='company_edit_vacancy.php' method='post'>
+                        <input type='hidden' name='id' value='$id'>
+                        <input type='hidden' name='title' value='$title'>
+                        <input type='hidden' name='location' value='$location'>
+                        <input type='hidden' name='description' value='$description'>
+                        <input type='hidden' name='workplace_type' value='$workplace_type'>
+                        <input type='hidden' name='job_type' value='$job_type'>
+                        <input type='hidden' name='status' value='$status'>
+                        <button type='submit'>Edit</button>
+                    </form>
+                    <form action='/api/company/vacancy/remove' method='post'>
+                        <input type='hidden' name='id' value='$id'>
+                        <button type='submit'>Delete</button>
+                    </form>
+                </div>
+            </div>
+			<br>";
+        }
+        ?>
         <!-- Add more vacancies here -->
     </div>
 </div>

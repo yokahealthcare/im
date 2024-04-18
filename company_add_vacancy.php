@@ -18,7 +18,7 @@ if(!isLogged()) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Profile</title>
+    <title>Add Vacancy</title>
     <!-- Font Awesome CDN link for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
     <link rel="stylesheet" href="css/toast.css">
@@ -28,7 +28,7 @@ if(!isLogged()) {
 <body>
 <div class="container">
     <ul class="notifications"></ul>
-    <h2>Edit Profile</h2>
+    <h2>Add Vacancy</h2>
     <div class="tabs">
         <a href="company_dashboard.php" class="tablink">Home</a>
         <a href="company_vacancy.php" class="tablink">Vacancy</a>
