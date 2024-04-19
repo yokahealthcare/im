@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-if(isset($_SESSION['admin_username']) && isset($_SESSION['admin_password'])) {
+if(isset($_SESSION['username'])) {
     header("Location: admin_dashboard.php");
     exit();
 }
@@ -36,7 +36,7 @@ if(isset($_SESSION['admin_username']) && isset($_SESSION['admin_password'])) {
         <div class="form-group">
             <button type="submit">Login</button>
         </div>
-    </form>
+    </form> You can now verfi
 </div>
 
 <script src="js/toast.js"></script>

@@ -1,9 +1,8 @@
 body {
     font-family: Arial, sans-serif;
-    /* Set background image */
-    background-image: url('../asset/img/wallpaper.jpg');
-    background-size: cover; /* Cover the entire background */
-    background-position: center; /* Center the background image */
+    background-image: url('asset/img/wallpaper.jpg');
+    background-size: cover;
+    background-position: center;
     margin: 0;
     padding: 0;
 }
@@ -21,31 +20,127 @@ h2 {
     color: #333;
 }
 
+/* Styles for tabs */
 .tabs {
     overflow: hidden;
     border-bottom: 1px solid #ccc;
     margin-bottom: 20px;
+    display: flex; /* Use flexbox */
 }
 
 .tablink {
-    background-color: #f2f2f2;
-    float: left;
+    background-color: #ccc; /* Gray color */
+    flex: 1; /* Distribute space evenly among tabs */
     border: none;
     outline: none;
     cursor: pointer;
-    padding: 14px 16px;
+    padding: 14px 20px; /* Padding */
     transition: background-color 0.3s;
+    text-align: center; /* Center align text */
+    color: #333; /* Text color */
 }
 
 .tablink:hover {
-    background-color: #ddd;
+    background-color: #ddd; /* Lighter gray color on hover */
 }
 
 .tabcontent {
     display: none;
     padding: 20px;
 }
+
+
 .vacancy img {
-    width: 100px; /* Adjust as needed */
-    height: 100px; /* Adjust as needed */
+    width: 100px;
+    height: 100px;
 }
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+button[type="submit"] {
+    width: 50%;
+    padding: 12px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: block;
+    margin: 20px auto;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-bottom: 1px solid #ccc;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    width: 60px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.logo h1 {
+    margin: 0;
+    font-size: 36px;
+    color: #333;
+}
+
+.contact p {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+}
+
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #000;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.footer p {
+    margin: 0;
+    font-size: 14px;
+}
+
+
+
+

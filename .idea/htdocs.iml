@@ -2,11 +2,11 @@
 <module type="WEB_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/!backup/internmatch/public/App" isTestSource="false" packagePrefix="App\" />
-      <sourceFolder url="file://$MODULE_DIR$/!backup/library" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/internmatch/public/App" isTestSource="false" packagePrefix="App\" />
       <sourceFolder url="file://$MODULE_DIR$/backup/internmatch/public" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/backup/library" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/spec" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/tests" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/!backup/internmatch/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/!backup/internmatch/vendor/nikic/fast-route" />
       <excludeFolder url="file://$MODULE_DIR$/!backup/internmatch/vendor/nyholm/psr7" />
@@ -31,6 +31,7 @@
       <excludeFolder url="file://$MODULE_DIR$/!backup/vendor/slim/psr7" />
       <excludeFolder url="file://$MODULE_DIR$/!backup/vendor/slim/slim" />
       <excludeFolder url="file://$MODULE_DIR$/!backup/vendor/symfony/polyfill-php80" />
+      <excludeFolder url="file://$MODULE_DIR$/!backup/vendor/composer" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

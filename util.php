@@ -107,10 +107,13 @@ class ReturnValue {
 }
 $rt = new ReturnValue();
 
-function fetchAllVacancy($search=''): bool|string
+function fetchAllVacancy($search='', $literal_all=false): bool|string
 {
     global $db;
-    $sql = "SELECT * FROM vacancy WHERE NOT EXISTS (SELECT * FROM apply WHERE vacancy.id = apply.vacancy_id) AND title LIKE '%$search%'AND status = 'Open';";
+    if($literal_all)
+        $sql = "SELECT * FROM vacancy WHERE NOT EXISTS (SELECT * FROM apply WHERE vacancy.id = apply.vacancy_id) AND title LIKE '%$search%';";
+    else
+        $sql = "SELECT * FROM vacancy WHERE NOT EXISTS (SELECT * FROM apply WHERE vacancy.id = apply.vacancy_id) AND title LIKE '%$search%'AND status = 'Open';";
 
     $vacancies = $db->fetchAllRow($sql);
     return json_encode($vacancies);

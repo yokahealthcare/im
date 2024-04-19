@@ -1,6 +1,8 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
+    background-image: url('asset/img/wallpaper.jpg');
+    background-size: cover;
+    background-position: center;
     margin: 0;
     padding: 0;
 }
@@ -54,5 +56,52 @@ button[type="submit"]:hover {
     background-color: #0056b3;
 }
 
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-bottom: 1px solid #ccc;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+}
+
+.logo img {
+    width: 60px; /* Adjust the width of the logo as needed */
+    height: auto; /* Maintain aspect ratio */
+    margin-right: 10px;
+}
+
+.logo h1 {
+    margin: 0;
+    font-size: 36px; /* Adjust font size as needed */
+    color: #333;
+}
+
+.contact p {
+    margin: 0;
+    font-size: 16px; /* Adjust font size as needed */
+    color: #333;
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #000;
+    color: #fff;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.footer p {
+    margin: 0;
+    font-size: 14px;
+}
 
 

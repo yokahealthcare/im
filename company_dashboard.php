@@ -36,8 +36,17 @@ if(!isLogged()) {
         <a href="/api/logout" class="tablink">Logout</a>
     </div>
     <div class="content">
-        <!-- Content for Home tab goes here -->
-        <p>This is the Home tab content.</p>
+        <h3>Recent Updates</h3>
+        <ul>
+            <li><strong>Version 1.0.1 (April 15, 2024):</strong> Added new internship opportunities from top companies.</li>
+            <li><strong>Version 1.0 (April 1, 2024):</strong> Launched Intern Match platform. Users can now sign up, log in, and apply for internships.</li>
+        </ul>
+
+        <h3>Patch Notes</h3>
+        <ul>
+            <li><strong>Version 1.0.1:</strong> Fixed minor bugs and improved user experience.</li>
+            <li><strong>Version 1.0:</strong> Initial release.</li>
+        </ul>
     </div>
 </div>
 <script src="js/toast.js"></script>

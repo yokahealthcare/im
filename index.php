@@ -10,6 +10,7 @@ require __DIR__ . '/../vendor/autoload.php';
 require __DIR__ . '/util.php';
 require __DIR__ . '/user_util.php';
 require __DIR__ . '/company_util.php';
+require __DIR__ . '/admin_util.php';
 
 /**
  * Instantiate App
@@ -547,6 +548,53 @@ $app->post('/api/admin/login', function (Request $request, Response $response, $
         send400("../../admin_login.php", $message);
     } elseif ($code == 500) {
         send500("../../admin_login.php", $message);
+    }
+    return $response;
+});
+
+$app->post('/api/admin/vacancy/update', function (Request $request, Response $response, $args) {
+    $input = (array)$request->getParsedBody();
+    /*
+     * input['id']                  : Id of the vacancy
+     * input['title']               : Title of the vacancy
+     * input['location']            : Location of the vacancy
+     * input['description']         : Description of the vacancy
+     * input['workplace_type']      : Work place type  of the vacancy
+     * input['job_type']            : Job type of the vacancy
+     * input['status']              : Status of the vacancy
+     */
+
+
+    $status = validateCompanyUpdateVacancy($input['id'], $input['title'], $input['location'], $input['description'], $input['workplace_type'], $input['job_type'], $input['status']);
+    $code = $status->code;
+    $message = $status->message;
+
+    if ($code == 200) {
+        send200("../../../admin_dashboard.php", $message);
+    } elseif ($code == 400) {
+        send400("../../../admin_dashboard.php", $message);
+    } elseif ($code == 500) {
+        send500("../../../admin_dashboard.php", $message);
+    }
+    return $response;
+});
+
+$app->post('/api/admin/vacancy/remove', function (Request $request, Response $response, $args) {
+    $input = (array)$request->getParsedBody();
+    /*
+     * input['id']         : Vacancy ID
+     */
+
+    $status = validateAdminRemoveVacancy($input["id"]);
+    $code = $status->code;
+    $message = $status->message;
+
+    if ($code == 200) {
+        send200("../../../admin_dashboard.php", $message);
+    } elseif ($code == 400) {
+        send400("../../../admin_dashboard.php", $message);
+    } elseif ($code == 500) {
+        send500("../../../admin_dashboard.php", $message);
     }
     return $response;
 });

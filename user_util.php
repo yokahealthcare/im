@@ -138,6 +138,7 @@ function validateUserVerifyAccount($email)
 function validateUserUpdateAccount($email, $name, $about, $address)
 {
     global $db, $rt;
+    $about = str_replace("'", "", $about);
     $sql = "UPDATE user_account SET name='$name', about='$about', address='$address' WHERE email='$email';";
 
     try {

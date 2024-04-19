@@ -152,6 +152,7 @@ function validateCompanyVerifyAccount($email)
 function validateCompanyUpdateAccount($email, $name, $about, $address, $website, $industry, $founded, $size)
 {
     global $db, $rt;
+    $about = str_replace("'", "", $about);
     $sql = "UPDATE company_account SET name='$name', about='$about', address='$address', website='$website', industry='$industry', founded='$founded', size='$size' WHERE email='$email';";
 
     try {
@@ -210,6 +211,7 @@ function validateCompanyUpdatePassword($email, $password)
 function validateCompanyUpdateVacancy($id, $title, $location, $description, $workplace_type, $job_type, $status)
 {
     global $db, $rt;
+    $description = str_replace("'", "", $description);
     $sql = "UPDATE vacancy SET 
                    title='$title', 
                    location='$location',
@@ -241,6 +243,7 @@ function validateCompanyUpdateVacancy($id, $title, $location, $description, $wor
 function validateCompanyCreateVacancy($id, $title, $location, $description, $workplace_type, $job_type, $status, $company_id)
 {
     global $db, $rt;
+    $description = str_replace("'", "", $description);
     $sql = "INSERT INTO vacancy (id, title, location, description, workplace_type, job_type, status, company_id) VALUES ('$id', '$title', '$location', '$description', '$workplace_type', '$job_type', '$status', '$company_id');";
     try {
         $isVacancyDataInserted = $db->insertRow($sql);
