@@ -1,14 +1,15 @@
 {
-  "require": {
-    "slim/slim": "4.*",
-    "slim/psr7": "^1.6",
-    "phpmailer/phpmailer": "^6.9.1",
-    "ext-pdo": "*",
-    "ext-curl": "*"
-  },
-  "autoload": {
-    "psr-4": {
-      "App\\": "htdocs/App"
+    "require": {
+        "slim/slim": "4.*",
+        "slim/psr7": "^1.6",
+	"phpmailer/phpmailer": "^6.9.1",
+        "ext-pdo": "*",
+	"ext-curl": "*",
+	"ext-mysqli": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "htdocs/App"
+        }
     }
-  }
 }
