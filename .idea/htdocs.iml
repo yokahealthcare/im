@@ -5,6 +5,8 @@
       <sourceFolder url="file://$MODULE_DIR$/!backup/internmatch/public/App" isTestSource="false" packagePrefix="App\" />
       <sourceFolder url="file://$MODULE_DIR$/!backup/library" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/internmatch/public/App" isTestSource="false" packagePrefix="App\" />
+      <sourceFolder url="file://$MODULE_DIR$/backup/internmatch/public" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/backup/library" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/!backup/internmatch/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/!backup/internmatch/vendor/nikic/fast-route" />
       <excludeFolder url="file://$MODULE_DIR$/!backup/internmatch/vendor/nyholm/psr7" />

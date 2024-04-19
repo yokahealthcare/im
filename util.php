@@ -48,6 +48,19 @@ function isLogged(): bool
         return false;
 }
 
+function isLoggedAdmin(): bool
+{
+    if (isset($_SESSION['username']))
+        return true;
+    else
+        return false;
+}
+
+function getSessionUsername()
+{
+    return $_SESSION['admin_username'];
+}
+
 function getSessionName()
 {
     return $_SESSION['name'];

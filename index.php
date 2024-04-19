@@ -524,4 +524,35 @@ $app->post('/api/company/vacancy/remove', function (Request $request, Response $
     return $response;
 });
 
+
+
+/*
+ *  ADMIN
+ */
+
+$app->post('/api/admin/login', function (Request $request, Response $response, $args) {
+    $input = (array)$request->getParsedBody();
+    /*
+     * input['username']            : User email
+     * input['password']            : User password
+     */
+
+    $status = validateAdminLogin($input['username'], $input['password']);
+    $code = $status->code;
+    $message = $status->message;
+
+    if ($code == 200) {
+        send200("../../admin_dashboard.php", $message);
+    } elseif ($code == 400) {
+        send400("../../admin_login.php", $message);
+    } elseif ($code == 500) {
+        send500("../../admin_login.php", $message);
+    }
+    return $response;
+});
+
+
+
+
+
 $app->run();
